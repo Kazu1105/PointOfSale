@@ -1,23 +1,35 @@
 package store.model.checkout
-
 import store.model.items.Item
+import store.view.SelfCheckoutGUI._
+import scala.:+
 
 class SelfCheckout {
+  var pressed:String=""
+  var storage:Map[String,Item]=Map()
+  //storage is the barcode -> item
+  var cart:List[Item]=List()
+  var errorobj:Item= new Item("error", 0.0)
 
   def addItemToStore(barcode: String, item: Item): Unit = {
+    storage += (barcode->item)
     // This method adds an item to your store's checkout system. It does not add an item to the customer's cart
     // TODO
   }
-
   def numberPressed(number: Int): Unit = {
+    pressed=pressed+number
     // TODO
   }
 
   def clearPressed(): Unit = {
+    pressed=""
     // TODO
   }
 
   def enterPressed(): Unit = {
+    //appends the values in the storage into item while returning error if the barcode does not match an item
+    //storage is the item
+    cart= cart:+storage.getOrElse(pressed,errorobj)
+    pressed=""
     // TODO
   }
 
@@ -38,14 +50,13 @@ class SelfCheckout {
   }
 
   def displayString(): String = {
-    ""
+    pressed
     // TODO
   }
 
   def itemsInCart(): List[Item] = {
-    List()
+    cart
   }
-
   def subtotal(): Double = {
     0.0
   }
@@ -56,6 +67,9 @@ class SelfCheckout {
 
   def total(): Double = {
     0.0
+    /*
+    total1=subtotal1+tax1
+    total1*/
   }
 
   def prepareStore(): Unit = {
